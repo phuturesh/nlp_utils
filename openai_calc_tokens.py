@@ -2,9 +2,12 @@
 This script references https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken
 """
 
-import tiktoken
-from tqdm import tqdm
+import argparse
 import json
+import sys
+import tiktoken
+from typing import Union, List, Dict
+from tqdm import tqdm
 
 
 def num_tokens_from_messages(messages, model="gpt-4o-mini-2024-07-18"):
@@ -61,7 +64,11 @@ def num_tokens_from_messages(messages, model="gpt-4o-mini-2024-07-18"):
 
 
 def num_tokens_from_batch_input(batch_input):
-    """Return the number of tokens used by a batch input. Require batch_input to be a path to a JSONL file"""
+    """
+    Return the number of tokens used by a batch input.
+    Require batch_input to be a path to a JSONL file.
+    We assume batch_input already contains legal JSONL lines.
+    """
     with open(batch_input, "r") as f:
         tokens = 0
         lines = list(f.readlines())
@@ -73,13 +80,51 @@ def num_tokens_from_batch_input(batch_input):
             tokens += num_tokens_from_messages(messages, model)
     return tokens
 
+def num_tokens_from_raw_text(text_input: str, model: str) -> int:
+    """Process raw text file as a single message."""
+    with open(text_input, "r") as f:
+        text = str(f.readlines())
+    messages = [{"role": "user", "content": text}]
+    return num_tokens_from_messages(messages, model)
+
+def num_tokens_from_message_file(messages_str: str, model: str) -> int:
+    """Process a JSON file containing messages."""
+    try:
+        with open(messages_str, "r") as f:
+            text = f.readlines()
+        messages = json.loads(text)
+        return num_tokens_from_messages(messages, model)
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON format for messages")
+
 
 if __name__ == "__main__":
 
-    def main(*batch_inputs):
-        for bi in batch_inputs:
-            print(bi, f"{num_tokens_from_batch_input(bi):,}")
+    class NumTokens:
+        def __init__(self, model: str = "gpt-4o-mini-2024-07-18"):
+            self.model = model
+
+        def batch(self, *batch_inputs: List[str]):
+            for bi in batch_inputs:
+                print(bi, f"{num_tokens_from_batch_input(bi):,}")
+
+        def raw(self, *text_inputs: List[str]):
+            for ti in text_inputs:
+                print(ti, f"{num_tokens_from_raw_text(ti, self.model):,}")
+
+        def message(self, *messages_strs: List[str]):
+            for ms in messages_strs:
+                print(ms, f"{num_tokens_from_message_file(ms, self.model):,}")
+
+        def b(self, *batch_inputs: List[str]):
+            self.batch(*batch_inputs)
+
+        def r(self, *text_inputs: List[str]):
+            self.raw(*text_inputs)
+
+        def m(self, *messages_strs: List[str]):
+            self.message(*messages_strs)
 
     from fire import Fire
 
-    Fire(main)
+    Fire(NumTokens)
