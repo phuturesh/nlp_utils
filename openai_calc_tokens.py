@@ -2,11 +2,10 @@
 This script references https://cookbook.openai.com/examples/how_to_count_tokens_with_tiktoken
 """
 
-import argparse
 import json
-import sys
+from typing import List
+
 import tiktoken
-from typing import Union, List, Dict
 from tqdm import tqdm
 
 
@@ -80,12 +79,14 @@ def num_tokens_from_batch_input(batch_input):
             tokens += num_tokens_from_messages(messages, model)
     return tokens
 
+
 def num_tokens_from_raw_text(text_input: str, model: str) -> int:
     """Process raw text file as a single message."""
     with open(text_input, "r") as f:
         text = str(f.readlines())
     messages = [{"role": "user", "content": text}]
     return num_tokens_from_messages(messages, model)
+
 
 def num_tokens_from_message_file(messages_str: str, model: str) -> int:
     """Process a JSON file containing messages."""
