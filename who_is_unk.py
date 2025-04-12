@@ -1,10 +1,12 @@
-def check_unk_after_bpe(dict_file, bpe_file):
+import os
+
+def check_unk_after_bpe(dict_file: str | os.PathLike, bpe_file: str | os.PathLike) -> set:
     """
     Checks which tokens in the `bpe_file` (already BPE-processed) are not in the `dict_file`.
 
     Args:
-        dict_file (str): Path to the fairseq dictionary file.
-        bpe_file (str): Path to the file containing BPE-processed tokens.
+        dict_file (str | os.PathLike): Path to the fairseq dictionary file.
+        bpe_file (str | os.PathLike): Path to the file containing BPE-processed tokens.
 
     Returns:
         set: A set of unknown tokens from `bpe_file`.
@@ -26,11 +28,10 @@ def check_unk_after_bpe(dict_file, bpe_file):
 
     return unk_tokens
 
-def main(dict_file, bpe_file):
-    unknown_tokens = check_unk_after_bpe(dict_file, bpe_file)
-    print("Unknown tokens:", unknown_tokens)
-
 if __name__ == '__main__':
+    def main(dict_file, bpe_file):
+        unknown_tokens = check_unk_after_bpe(dict_file, bpe_file)
+        print("Unknown tokens:", unknown_tokens)
     import sys
     if '-h' in sys.argv or '--help' in sys.argv:
         print("Checks which tokens in the BPE-processed file are not in the dictionary file.")

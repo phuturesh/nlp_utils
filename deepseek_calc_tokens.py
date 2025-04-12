@@ -1,17 +1,21 @@
-from pathlib import Path
+import os
+import importlib.resources
+import importlib.metadata
 
 import transformers
+
 
 
 def num_tokens_from_messages(messages, model="deepseek-chat", version="v3"):
     # model actually doesn't matter
     assert model in ["deepseek-chat", "deepseek-reasoner"]
     if version == 'v3':
-        chat_tokenizer_dir = Path(__file__).parent / "deepseek_tokenizer" / "v3"
+        chat_tokenizer_dir = importlib.resources.path("py-nlp-utils", "deepseek_tokenizer/v3")
     elif version == 'v2':
-        chat_tokenizer_dir = Path(__file__).parent / "deepseek_tokenizer" / "v2"
+        chat_tokenizer_dir = importlib.resources.path("py-nlp-utils", "deepseek_tokenizer/v2")
     else:
         raise ValueError(f"Invalid version {version}, only v2 and v3 are supported")
+    assert isinstance(chat_tokenizer_dir, os.PathLike)
     tokenizer = transformers.AutoTokenizer.from_pretrained(
         chat_tokenizer_dir, trust_remote_code=True
     )
