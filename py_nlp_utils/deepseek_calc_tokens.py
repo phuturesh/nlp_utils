@@ -10,9 +10,9 @@ def num_tokens_from_messages(messages, model="deepseek-chat", version="v3"):
     # model actually doesn't matter
     assert model in ["deepseek-chat", "deepseek-reasoner"]
     if version == 'v3':
-        chat_tokenizer_dir = importlib.resources.path("py-nlp-utils", "deepseek_tokenizer/v3")
+        chat_tokenizer_dir = importlib.resources.files("py_nlp_utils").joinpath("deepseek_tokenizer/v3")
     elif version == 'v2':
-        chat_tokenizer_dir = importlib.resources.path("py-nlp-utils", "deepseek_tokenizer/v2")
+        chat_tokenizer_dir = importlib.resources.files("py_nlp_utils").joinpath("deepseek_tokenizer/v2")
     else:
         raise ValueError(f"Invalid version {version}, only v2 and v3 are supported")
     assert isinstance(chat_tokenizer_dir, os.PathLike)

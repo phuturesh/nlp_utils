@@ -1,10 +1,9 @@
 [project]
 name = "py-nlp-utils"
-version = "0.0.1"
 authors = [
   { name="Shen Fuchen", email="sfc@tju.edu.cn" },
 ]
-description = "To avoid reimplemening simple NLP wheels"
+dynamic = ["version", "description"]
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.7"
 classifiers = [
