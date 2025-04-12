@@ -1,6 +1,6 @@
 """To avoid reimplemening simple NLP wheels"""
 
-__version__ = "0.0.1"
+__version__ = "0.0.1dev1"
 
 from typing import Optional
 
