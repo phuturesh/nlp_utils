@@ -1,3 +1,7 @@
+"""To avoid reimplemening simple NLP wheels"""
+
+__version__ = "0.0.1"
+
 from typing import Optional
 
 from .deepseek_calc_tokens import (
