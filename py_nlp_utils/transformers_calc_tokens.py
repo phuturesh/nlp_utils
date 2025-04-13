@@ -1,10 +1,8 @@
-import transformers
-from transformers import AutoProcessor
-
-
 def num_tokens_from_text(
     text: str, model="meta-llama/Llama-4-Scout-17B-16E-Instruct", token=True
 ):
+    import transformers
+
     tokenizer = transformers.AutoTokenizer.from_pretrained(
         model, trust_remote_code=True, local_files_only=True
     )
@@ -15,7 +13,9 @@ def num_tokens_from_text(
 def num_tokens_from_messages(
     messages, model="meta-llama/Llama-4-Scout-17B-16E-Instruct", token=True
 ):
-    processor = AutoProcessor.from_pretrained(model, token=token)
+    import transformers
+
+    processor = transformers.AutoProcessor.from_pretrained(model, token=token)
     inputs = processor.apply_chat_template(
         messages,
         add_generation_prompt=True,

@@ -1,10 +1,10 @@
 import os
 import importlib.resources
 
-import transformers
-
 
 def num_tokens_from_text(text: str, model: str, version="v3") -> int:
+    import transformers
+
     # model actually doesn't matter
     assert model in ["deepseek-chat", "deepseek-reasoner"]
     if version == "v3":
@@ -26,6 +26,8 @@ def num_tokens_from_text(text: str, model: str, version="v3") -> int:
 
 
 def num_tokens_from_messages(messages, model="deepseek-chat", version="v3"):
+    import transformers
+
     # model actually doesn't matter
     assert model in ["deepseek-chat", "deepseek-reasoner"]
     if version == "v3":

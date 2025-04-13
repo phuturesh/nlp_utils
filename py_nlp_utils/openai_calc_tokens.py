@@ -5,11 +5,12 @@ This script references https://cookbook.openai.com/examples/how_to_count_tokens_
 import json
 from typing import List
 
-import tiktoken
 from tqdm import tqdm
 
 
 def num_tokens_from_text(text: str, model="gpt-4o-mini-2024-07-18"):
+    import tiktoken
+
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
@@ -54,6 +55,8 @@ def num_tokens_from_text(text: str, model="gpt-4o-mini-2024-07-18"):
 
 
 def num_tokens_from_messages(messages, model="gpt-4o-mini-2024-07-18"):
+    import tiktoken
+
     """Return the number of tokens used by a list of messages."""
     try:
         encoding = tiktoken.encoding_for_model(model)
