@@ -27,7 +27,7 @@ def num_tokens_from_messages(
     model: str,
     transformers_token: str | bool = True,
     tokenizer: Optional[str] = None,
-    version: Optional[str] = None,
+    version: Optional[str] = "v3",
 ):
     if tokenizer is not None:
         if tokenizer.lower() in ["openai", "tiktoken", "gpt"]:
