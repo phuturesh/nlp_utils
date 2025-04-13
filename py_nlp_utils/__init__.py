@@ -19,7 +19,7 @@ __all__ = [
     "num_tokens_from_messages",
     "check_unk_after_bpe",
 ]
-__version__ = "0.0.1"
+__version__ = "0.0.1.dev2"
 
 
 def num_tokens_from_messages(
